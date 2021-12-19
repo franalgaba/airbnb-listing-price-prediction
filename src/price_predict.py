@@ -19,9 +19,9 @@ def _build_predict_request(
     latitude,
     longitude,
 ):
-    st.text(
-        f"{neighborhood_group}, {neighborhood}, {room_type}, {minimum_nights}, {availability_365}, {latitude}, {longitude}"
-    )
+    """
+    Builds Inference backend payload
+    """
 
     distance = calculate_distance(longitude, latitude)
 
@@ -70,30 +70,37 @@ def write():
 
         submitted = st.form_submit_button("Get listing price")
         if submitted:
-            payload = _build_predict_request(
-                neighborhood_group,
-                neighborhood,
-                room_type,
-                minimum_nights,
-                availability_365,
-                location.latitude,
-                location.longitude,
-            )
-            if "PREDICTION_BACKEND_URL" in os.environ:
-                response = requests.post(
-                    os.environ["PREDICTION_BACKEND_URL"], json=payload
+            with st.spinner(":thinking: Consiguiendo el mejor precio de listado..."):
+                payload = _build_predict_request(
+                    neighborhood_group,
+                    neighborhood,
+                    room_type,
+                    minimum_nights,
+                    availability_365,
+                    location.latitude,
+                    location.longitude,
                 )
-                prediction = json.loads(response.text)
-                st.success(
-                    f'El precio por noche recomendado sería: __{prediction["price"]}__'
-                )
-            else:
-                st.error("Missing PREDICTION_BACKEND_URL environment variable")
+                if "PREDICTION_BACKEND_URL" in os.environ:
+                    response = requests.post(
+                        os.environ["PREDICTION_BACKEND_URL"], json=payload
+                    )
+                    prediction = json.loads(response.text)
+                    st.success(
+                        f'El precio por noche recomendado sería: __{prediction["price"]}__'
+                    )
+                else:
+                    st.error("Missing PREDICTION_BACKEND_URL environment variable")
 
     st.header("Arquitectura")
 
     st.markdown(
-        "Todo el desarrollo de este apartado no procesa las inferencias en el contenedor local. Por el contrario, se ha productivizado el modelo de Keras entrenado previamente junto al One Hot Encoder del apartado anterior. Se ha desarrollado un microservicio productivo de inferencia en Python usando FastAPI para la capa de API y se ha construido un contenedor desplegado en el servicio serverless Cloud Run en GCP. Los modelos entrenados están almacenados en GCS y este frontal lo que hace es realizar peticiones sobre este servicio para obtener las inferencias."
+        """
+        Todo el desarrollo de este apartado no procesa las inferencias en el contenedor local. 
+        
+        Por el contrario, se ha productivizado el modelo de Keras entrenado previamente junto al One Hot Encoder del apartado anterior. Se ha desarrollado un microservicio productivo de inferencia en Python usando FastAPI para la capa de API y se ha construido un contenedor desplegado en el servicio serverless Cloud Run en GCP. 
+        
+        Los modelos entrenados están almacenados en GCS y este frontal lo que hace es realizar peticiones sobre este servicio para obtener las inferencias.
+        """
     )
 
 
