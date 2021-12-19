@@ -49,7 +49,6 @@ class ListingPriceModel:
         self, prediction: float, start_time: float
     ) -> ListingPredictionResult:
         logger.debug("Post-processing prediction.")
-        # Decode sentiment
 
         return ListingPredictionResult(
             price=prediction,
@@ -63,8 +62,6 @@ class ListingPriceModel:
         start_at = time.time()
         pre_processed_payload = self._pre_process(payload)
         prediction = self._predict(pre_processed_payload)
-        post_processed_result = self._post_process(
-            pre_processed_payload, prediction, start_at
-        )
+        post_processed_result = self._post_process(prediction, start_at)
 
         return post_processed_result
