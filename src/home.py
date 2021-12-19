@@ -20,11 +20,11 @@ def write():
     - Model Training: desde aquí podrás ver el procedimiento de entrenamiento de un modelo de Machine Learning para la predicción del mejor precio de listado para viviendas en Airbnb.
     - Model Deployment: en este apartado podrás probar el producto final desarrollado. Dada una dirección cualquiera de Madrid podrás obtner predicciones de precio. Todo esto montando en una arquitectura serverless sobre GCP donde se ha productivizado el modelo para que este frontal le haga consultas.
 
-    Todo el código de la aplicación está disponible en: [airbnb-listing-price-prediction](https://github.com/franalgaba/airbnb-listing-price-prediction)
+    Todo el código de la aplicación está disponible en: [airbnb-listing-price-prediction](https://github.com/franalgaba/airbnb-listing-price-prediction).
+    
     También puedes ver mis perfiles de redes sociales:
-    - Linkedin: xxx
-    - Github: xxx
-    - Twitter donde sobretodo hablo de mi nuevo interés, la web3: xxx
+    - [Linkedin](https://www.linkedin.com/in/falgaba/)
+    - [Github](https://github.com/franalgaba)
     """
     )
 

@@ -336,6 +336,9 @@ def write():
 
     max_iter = st.number_input("max_iter", min_value=5)
 
+    st.warning(
+        "No lanzar entrenamientos desde algún sitio que no sea local. El servicio se quedará sin recursos y morirá. Para ejecutar en local consultar el [README](https://github.com/franalgaba/airbnb-listing-price-prediction/blob/main/README.md)"
+    )
     if st.button("Lanzar entrenamiento con Logistic Regression!"):
         with st.spinner(":fire: Haciendo huevos fritos sobre el ordenador..."):
             model.train_lr(data, max_iter)
@@ -353,6 +356,9 @@ def write():
     batch_size = st.number_input("batch_size", min_value=32)
     learning_rate = st.number_input("learning_rate", min_value=0.0001, format="%.4f")
 
+    st.warning(
+        "No lanzar entrenamientos desde algún sitio que no sea local. El servicio se quedará sin recursos y morirá. Para ejecutar en local consultar el [README](https://github.com/franalgaba/airbnb-listing-price-prediction/blob/main/README.md)"
+    )
     if st.button("Lanzar entrenamiento con Neural Network!"):
         with st.spinner(":fire: Haciendo huevos fritos sobre el ordenador..."):
             history = model.train(data, epochs, batch_size, learning_rate)
