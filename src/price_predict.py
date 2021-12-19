@@ -39,7 +39,7 @@ def write():
 
     st.title("Airbnbinator! El optimizador de precios en Airbnb :rocket:")
     st.markdown(
-        "¡Llegó la hora de utilizar el producto final! :partying_face: Airbnbator te permitirá obtener el precio de listado óptimo para tu vivienda. Para empezar, introduce la dirección donde está tu vivienda:"
+        "¡Llegó la hora de utilizar el producto final! Airbnbator te permitirá obtener el precio de listado óptimo para tu vivienda. Para empezar, introduce la dirección donde está tu vivienda:"
     )
 
     address = st.text_input("Dirección de Madrid", value="Plaza Mayor, Madrid")
@@ -97,7 +97,7 @@ def write():
         
         Por el contrario, se ha productivizado el modelo de Keras entrenado previamente junto al One Hot Encoder del apartado anterior. Se ha desarrollado un microservicio productivo de inferencia en Python usando FastAPI para la capa de API y se ha construido un contenedor desplegado en el servicio serverless Cloud Run en GCP. 
         
-        Los modelos entrenados están almacenados en GCS y este frontal lo que hace es realizar peticiones sobre este servicio para obtener las inferencias.
+        Los modelos entrenados están almacenados en GCS y este frontal lo que hace es realizar peticiones sobre este servicio para obtener las inferencias. Para más información consultar el repositorio.
         """
     )
 

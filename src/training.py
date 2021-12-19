@@ -320,11 +320,11 @@ def write():
     )
 
     st.markdown(
-        "En cuanto a la selección de la arquitectura del modelo e hiperparámeteros he implementado un tuner usando Random Search para que optimice parámetros así como número de neuronas de la red automáticamente. La ejecución con esta metodología puede alargarse bastante en el tiempo, asique he desarrollado yo una propia en base a mi criterio para evitar que quien esté leyendo esto pierda más el tiempo."
+        "En cuanto a la selección de la arquitectura del modelo e hiperparámeteros he implementado un tuner usando Random Search para que optimice parámetros así como número de neuronas de la red automáticamente. La ejecución con esta metodología puede alargarse bastante en el tiempo, asique he desarrollado yo una propia en base a mi criterio para evitar que quien esté leyendo esto pierda más el tiempo. Aún así la implementación está [aquí](https://github.com/franalgaba/airbnb-listing-price-prediction/blob/main/src/training.py#L139)"
     )
 
     st.markdown(
-        "Redoble de tambores... :drum: ¡Ya estamos listos para empezar! Tan solo haz click en el siguiente botón para realizar el entrenamiento del modelo y... ¡que bailen esos pesos!"
+        "Redoble de tambores... ¡Ya estamos listos para empezar! Tan solo haz click en el siguiente botón para realizar el entrenamiento del modelo y... ¡que bailen esos pesos!"
     )
 
     data = get_data()
@@ -337,7 +337,7 @@ def write():
     max_iter = st.number_input("max_iter", min_value=5)
 
     st.warning(
-        "No lanzar entrenamientos desde algún sitio que no sea local. El servicio se quedará sin recursos y morirá. Para ejecutar en local consultar el [README](https://github.com/franalgaba/airbnb-listing-price-prediction/blob/main/README.md)"
+        "Por favor, no lanzar entrenamientos desde algún sitio que no sea local. El servicio se quedará sin recursos y morirá. Para ejecutar en local consultar el [README](https://github.com/franalgaba/airbnb-listing-price-prediction/blob/main/README.md)"
     )
     if st.button("Lanzar entrenamiento con Logistic Regression!"):
         with st.spinner(":fire: Haciendo huevos fritos sobre el ordenador..."):
@@ -357,7 +357,7 @@ def write():
     learning_rate = st.number_input("learning_rate", min_value=0.0001, format="%.4f")
 
     st.warning(
-        "No lanzar entrenamientos desde algún sitio que no sea local. El servicio se quedará sin recursos y morirá. Para ejecutar en local consultar el [README](https://github.com/franalgaba/airbnb-listing-price-prediction/blob/main/README.md)"
+        "Por favor, no lanzar entrenamientos desde algún sitio que no sea local. El servicio se quedará sin recursos y morirá. Para ejecutar en local consultar el [README](https://github.com/franalgaba/airbnb-listing-price-prediction/blob/main/README.md)"
     )
     if st.button("Lanzar entrenamiento con Neural Network!"):
         with st.spinner(":fire: Haciendo huevos fritos sobre el ordenador..."):
