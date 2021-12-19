@@ -4,7 +4,7 @@ import pandas as pd
 from geopy.distance import geodesic
 
 
-def calculate_distance(self, longitude, latitude):
+def calculate_distance(longitude, latitude):
     madrid = "40.416729, -3.703339"
     return geodesic(madrid, f"{longitude} {latitude}").km
 

@@ -35,8 +35,10 @@ def _build_predict_request(
 
 def write():
 
-    st.title("Airbnb listing price prediction! :rocket:")
-    st.markdown("Por favor, inserta la dirección que quieras predecir:")
+    st.title("Airbnbinator! El optimizador de precios en Airbnb :rocket:")
+    st.markdown(
+        "¡Llegó la hora de utilizar el producto final! Airbnbator te permitirá obtener el precio de listado óptimo para tu vivienda. Para empezar, introduce la dirección donde está tu vivienda:"
+    )
 
     address = st.text_input("Dirección de Madrid", value="Plaza Mayor, Madrid")
 
@@ -49,7 +51,7 @@ def write():
         )
         st.map(df)
 
-    st.markdown("Ahora introduce la información relativa a la propiedad:")
+    st.markdown("Perfecto! Ahora rellena los últimos datos relativos a la vivienda:")
 
     df = get_data()
 
@@ -80,6 +82,12 @@ def write():
                 )
             else:
                 st.error("Missing PREDICTION_BACKEND_URL environment variable")
+
+    st.header("Arquitectura")
+
+    st.markdown(
+        "Todo el desarrollo de este apartado no procesa las inferencias en el contenedor local. Por el contrario, se ha productivizado el modelo de Keras entrenado previamente junto al One Hot Encoder del apartado anterior. Se ha desarrollado un microservicio productivo de inferencia en Python usando FastAPI para la capa de API y se ha construido un contenedor desplegado en el servicio serverless Cloud Run en GCP. Los modelos entrenados están almacenados en GCS y este frontal lo que hace es realizar peticiones sobre este servicio para obtener las inferencias."
+    )
 
 
 if __name__ == "__main__":

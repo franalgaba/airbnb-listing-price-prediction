@@ -25,7 +25,7 @@ def write():
 
     st.markdown(
         """
-        Si establecemos el numero de noches en `7` para estancia de una semana y vamos variando el rango de precios, vemos como la mayor oferta en esta categoría se situa en la zona de Madrid centro, en los barrios de Malasaña, Chueca y Lavapies, estancias muy céntricas donde los visitantes a la capital tendrán más posibilidades de elegir. 
+        Si establecemos el número de noches en `7` para estancia de una semana y vamos variando el rango de precios, vemos como la mayor oferta en esta categoría se situa en la zona de Madrid centro, en los barrios de Malasaña, Chueca y Lavapies, estancias muy céntricas donde los visitantes a la capital tendrán más posibilidades de elección. 
         
         Sin embargo, hay otra zona que destaca, la zona de Usera tiene una gran concentración de oferta para un rango de precios bajo, reflejando como puede ser la opción elegida para los bolsillos más contenidos. Si en el mismo período de estancia de una semana vamos incrementando el rango de precio vemos como hay un cambio de tendencia, la zona centro mencionada sigue teniendo mucha oferta pero disminuye considerablemente mientras otros barrios como Tetuán, Cuatro Caminos y San Blas recogen el testigo como zonas de alojamiento para bolsillos más holgados.
         """
@@ -75,7 +75,7 @@ def write():
     )
 
     st.markdown(
-        "Ahora observamos una distribución de los datos fidedigna, donde estos resultados confirman el análisis realizada de forma visual en el mapa, donde vemos que las zonas más elevadas de precio para alojarse son San Blas y Tetúan. Vemos también que Usera está en los barrios con el precio medio más elevado junto con Vicálvaro. En el caso de Vicalvaro se debe a la escasa oferta en la zona con precios muy elevados. Sin embargo en el caso de Usera, es una zona con mucha variedad en los rangos de precios."
+        "Ahora observamos una distribución de los datos más normalizada, donde estos resultados confirman el análisis realizada de forma visual en el mapa, donde vemos que las zonas más elevadas de precio para alojarse son San Blas y Tetúan. Vemos también que Usera está en los barrios con el precio medio más elevado junto con Vicálvaro. En el caso de Vicalvaro se debe a la escasa oferta en la zona con precios muy elevados. Sin embargo en el caso de Usera, es una zona con mucha variedad en los rangos de precios."
     )
 
     st.markdown(
@@ -121,8 +121,6 @@ def write():
 
     district = st.selectbox("Porcentaje de barrio", df.neighbourhood_group.unique())
 
-    st.markdown("Si seleccionamos")
-
     room_types_df = (
         df.groupby(["neighbourhood_group", "room_type"])
         .size()
@@ -132,7 +130,7 @@ def write():
 
     st.markdown(
         """
-    Con estos datos podemos el tipo de alojamiento que predomina por cada barrio. Si nos centramos en los barrios donde al principio vimos que predominaban precio bajos, como por ejemplo Usera, vemos que el alojamiento prediminante son las habitaciones privadas, superando por el doble de oferta al alojamiento entero.
+    Con estos datos podemos ver el tipo de alojamiento que predomina por cada barrio. Si nos centramos en los barrios donde al principio vimos que predominaban precio bajos, como por ejemplo Usera, vemos que el alojamiento prediminante son las habitaciones privadas, superando por el doble de oferta al alojamiento entero.
     
     Sin embargo, si cambiamos a Tetúan, uno de los barrios donde se incrementaba la oferta según se incrementaba el rango de precio, vemos que la tendencia es justo la opuesta, predominan alojamientos enteros casi por el doble a habitaciones privadas. De esta forma, podemos establecer la hipótesis de que el tipo de alojamiento y su oferta en un barrio impacta directamente en el precio de los alojamientos en esa zona.
     """

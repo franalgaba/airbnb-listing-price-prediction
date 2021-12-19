@@ -215,7 +215,7 @@ def write():
     st.title("Price prediction Model Training")
 
     st.markdown(
-        "Ha llegado el momento! Ahora vamos a realizar el entrenamiento de un modelo de Machine Learning para la predicción de precio de listado de una propiedad en Airbnb"
+        "Ha llegado el momento! Ahora vamos a realizar el entrenamiento de un modelo de Machine Learning para la predicción de precio de listado de una propiedad en Airbnb."
     )
 
     st.header("Premisas")
@@ -265,23 +265,19 @@ def write():
     )
 
     st.markdown(
-        "Posteriormente, una vez finalizado todo el preprocesamiento se realiza Univariate Feature Selection usando k highest scores usando chi2"
-    )
-
-    st.markdown(
         "Una vez tenemos todo el procesamiento completado, dividimos en splits de entrenamiento y test los datos. Para esta separación de los datos usaremos un 80% entrenamiento y 20% para test. La cantidad de datos no es muy grande por lo que usamos esa distribución. Si tuvieramos millones de samples optaríamos por una distribución más generosa como 98/2."
     )
 
     st.markdown(
-        "Respecto al modelo en si, se podría haber optado por un enfoque conservador usando Logistic Regression o Gradient Boosting pero he optado una Neural Network con Tensorflow. Seguramente, dado la cantidad de datos la diferencia de performance entre los diferentes métodos no sea destacable y el hecho de usar una red neuronal me la juego a sufrir un poco de overfitting sobre los datos. Nada que no se pueda resolver con una dosis de Dropout o Regularización entre las capas."
+        "Respecto al modelo en si, se podría haber optado por un enfoque conservador usando Logistic Regression o Gradient Boosting pero he optado una Neural Network con Tensorflow. Seguramente, dado la cantidad de datos la diferencia de performance entre los diferentes métodos no sea destacable y el hecho de usar una red neuronal me la juego a sufrir overfitting sobre los datos. Nada que no se pueda resolver con una dosis de Dropout o Regularización entre las capas, o no, veremos."
     )
 
     st.markdown(
-        "En cuanto a la selección de la arquitectura del modelo e hiperparámeteros he implementado un tuner usar Random Search para que optimice parámetros así como número de neuronas de la red automáticamente. La ejecución con esta metodología puede alargarse bastante en el tiempo, asique he desarrollado yo una propia en base a mi criterio para evitar que quien esté leyendo esto pierda más el tiempo."
+        "En cuanto a la selección de la arquitectura del modelo e hiperparámeteros he implementado un tuner usando Random Search para que optimice parámetros así como número de neuronas de la red automáticamente. La ejecución con esta metodología puede alargarse bastante en el tiempo, asique he desarrollado yo una propia en base a mi criterio para evitar que quien esté leyendo esto pierda más el tiempo."
     )
 
     st.markdown(
-        "Redoble de tambores... ¡Ya estamos listos para empezar! Tan solo haz click en el siguiente botón para realizar el entrenamiento del modelo y... que empiece lo bueno :)"
+        "Redoble de tambores... :drum: ¡Ya estamos listos para empezar! Tan solo haz click en el siguiente botón para realizar el entrenamiento del modelo y... ¡que bailen esos pesos!"
     )
 
     data = get_data()
@@ -316,7 +312,7 @@ def write():
             st.line_chart(history.history)
         st.success("Terminado!")
         st.markdown(
-            "Como vemos en la gráfica superior se produce mucho overfitting que no es fácil de controlar debido a la poca cantidad de datos. Las NN no son una solución adecuada al problema"
+            "Como vemos en la gráfica superior se produce mucho overfitting que no es fácil de controlar debido a la poca cantidad de datos. Las NN no son una solución adecuada al problema."
         )
 
     st.header("Let's predict!")
