@@ -37,7 +37,7 @@ def write():
 
     st.title("Airbnbinator! El optimizador de precios en Airbnb :rocket:")
     st.markdown(
-        "¡Llegó la hora de utilizar el producto final! Airbnbator te permitirá obtener el precio de listado óptimo para tu vivienda. Para empezar, introduce la dirección donde está tu vivienda:"
+        "¡Llegó la hora de utilizar el producto final! :partying_face: Airbnbator te permitirá obtener el precio de listado óptimo para tu vivienda. Para empezar, introduce la dirección donde está tu vivienda:"
     )
 
     address = st.text_input("Dirección de Madrid", value="Plaza Mayor, Madrid")
@@ -51,7 +51,9 @@ def write():
         )
         st.map(df)
 
-    st.markdown("Perfecto! Ahora rellena los últimos datos relativos a la vivienda:")
+    st.markdown(
+        "Perfecto! :star_struck: Ahora rellena los últimos datos relativos a la vivienda:"
+    )
 
     df = get_data()
 
@@ -76,7 +78,9 @@ def write():
                 location.longitude,
             )
             if "PREDICTION_BACKEND_URL" in os.environ:
-                prediction = requests.post("PREDICTION_BACKEND_URL", json=payload)
+                prediction = requests.post(
+                    os.environ["PREDICTION_BACKEND_URL"], json=payload
+                )
                 st.success(
                     f'El precio por noche recomendado sería: __{prediction["price"]}__'
                 )
