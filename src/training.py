@@ -233,24 +233,28 @@ class PriceModel:
         Main inference method using previously trained models
         """
 
-        X = self._preprocess_predict(data)
-
-        result = None
-        if is_lr:
-            if self.model_lr is None:
-                st.error(
-                    "Modelo de Logistic Regression no entrenado. Por favor, entrénalo antes de ejecutar la predicción."
-                )
-            else:
-                result = self.model_lr.predict(X)
+        if self.hot_encoder is None:
+            st.error(
+                "Para hacer la inferencia previamente se tiene que haber ejecutado un entrenamiento"
+            )
         else:
-            if self.model is None:
-                st.error(
-                    "Modelo de Red Neuronal no entrenado. Por favor, entrénalo antes de ejecutar la predicción."
-                )
+            X = self._preprocess_predict(data)
+            result = None
+            if is_lr:
+                if self.model_lr is None:
+                    st.error(
+                        "Modelo de Logistic Regression no entrenado. Por favor, entrénalo antes de ejecutar la predicción."
+                    )
+                else:
+                    result = self.model_lr.predict(X)
             else:
-                result = self.model.predict(X)
-        return result
+                if self.model is None:
+                    st.error(
+                        "Modelo de Red Neuronal no entrenado. Por favor, entrénalo antes de ejecutar la predicción."
+                    )
+                else:
+                    result = self.model.predict(X)
+            return result
 
 
 def write():
