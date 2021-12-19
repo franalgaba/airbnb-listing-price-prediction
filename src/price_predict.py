@@ -53,9 +53,7 @@ def write():
         )
         st.map(df)
 
-    st.markdown(
-        "Perfecto! :star_struck: Ahora rellena los últimos datos relativos a la vivienda:"
-    )
+    st.markdown("Perfecto! Ahora rellena los últimos datos relativos a la vivienda:")
 
     df = get_data()
 
@@ -70,7 +68,7 @@ def write():
 
         submitted = st.form_submit_button("Get listing price")
         if submitted:
-            with st.spinner(":thinking: Consiguiendo el mejor precio de listado..."):
+            with st.spinner("Consiguiendo el mejor precio de listado..."):
                 payload = _build_predict_request(
                     neighborhood_group,
                     neighborhood,

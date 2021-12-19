@@ -5,6 +5,17 @@ In this repository you will find an implementation for listing price of Airbnb h
 - EDA and Model training using a Streamlit front.
 - FastAPI microservice for serving inference in the front.
 
+The Streamlit front is structured in the `src` folder with one script per navigation section:
+- EDA: `src/eda.py`.
+- Model Training: `src/training.py`.
+- Model deployment: `src/price_predict.py`
+
+The prediction microservice is structured in the `prediction-service/app` folder:
+- API specification and implementation: `app/api`
+- Core functionality: `src/core`
+- Request schemas: `src/models`
+- Inference implementation: `src/services`
+
 ## Instructions
 
 For executing the Streamlit app:
