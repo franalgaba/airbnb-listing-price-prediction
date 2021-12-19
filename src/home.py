@@ -10,7 +10,7 @@ def write():
     st.title(":house: Airbnb and chill... your house!")
     st.markdown(
         """
-    Gracias a esta aplicación podrás explorar los datos de Airbnb en Madrid, sacar conclusiones de los datos entre más funcionalidades.
+    ¡Bienvenido! Gracias a esta aplicación podrás explorar los datos de Airbnb en Madrid, sacar conclusiones de los datos entre más funcionalidades.
 
     Si estás aquí te estarás preguntando... ¿a qué precio pongo en alquiler mi vivienda? Utilizando Machine Learning podrás obtener el mejor precio al que listar tu vivienda al precio más competitivo.
 
