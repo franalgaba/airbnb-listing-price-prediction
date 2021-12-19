@@ -6,10 +6,10 @@ import awesome_streamlit as ast
 ast.core.services.other.set_logging_format()
 
 PAGES = {
-    "Home": home,
-    "EDA": eda,
-    "Model Training": training,
-    "Model Deployment": price_predict,
+    ":house: Home": home,
+    ":bar_chart: EDA": eda,
+    ":star: Model Training": training,
+    ":rocket: Model Deployment": price_predict,
 }
 
 st.sidebar.title("Navigation")

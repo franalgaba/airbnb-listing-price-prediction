@@ -7,7 +7,7 @@ def write():
     Main entrypoint for the frontpage
     """
 
-    st.title("Airbnb and chill... your house!")
+    st.title(":house: Airbnb and chill... your house!")
     st.markdown(
         """
     Gracias a esta aplicación podrás explorar los datos de Airbnb en Madrid, sacar conclusiones de los datos entre más funcionalidades.
