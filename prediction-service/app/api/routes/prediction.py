@@ -1,19 +1,20 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
 from starlette.requests import Request
 
-from app.models.payload import TextPayload
-from app.models.prediction import SentimentPredictionResult
-from app.services.models import SentimentAnalysisModel
+from app.models.payload import ListingPayload
+from app.models.prediction import ListingPredictionResult
+from app.services.models import ListingPriceModel
 
 router = APIRouter()
 
 
-@router.post("/predict", response_model=SentimentPredictionResult, name="predict")
+@router.post("/predict", response_model=ListingPredictionResult, name="predict")
 def post_predict(
-    request: Request, data: TextPayload = None,
-) -> SentimentPredictionResult:
+    request: Request,
+    data: ListingPayload = None,
+) -> ListingPredictionResult:
 
-    model: SentimentAnalysisModel = request.app.state.model
-    prediction: SentimentPredictionResult = model.predict(data)
+    model: ListingPriceModel = request.app.state.model
+    prediction: ListingPredictionResult = model.predict(data)
 
     return prediction

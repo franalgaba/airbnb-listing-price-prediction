@@ -9,3 +9,4 @@ loguru
 fsspec
 gcsfs
 numpy
+pandas
