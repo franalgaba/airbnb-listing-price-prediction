@@ -1,0 +1,8 @@
+watchdog
+awesome-streamlit
+scipy
+plotly
+scikit-learn
+tensorflow
+geopy
+keras-tuner
