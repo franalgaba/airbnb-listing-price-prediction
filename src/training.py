@@ -18,10 +18,8 @@ from tensorflow.keras.optimizers import Adam
 
 warnings.filterwarnings("ignore")
 
-from geopy.geocoders import Nominatim
-from geopy.distance import geodesic
 
-from src.utils import get_data
+from src.utils import get_data, calculate_distance
 
 
 @st.cache(allow_output_mutation=True)
@@ -30,10 +28,6 @@ class PriceModel:
     hot_encoder = None
     feature_selector = None
     model = None
-
-    def _calculate_distance(self, longitude, latitude):
-        madrid = "40.416729, -3.703339"
-        return geodesic(madrid, f"{longitude} {latitude}").km
 
     def _replace_missing_data(self, data):
         missing_df = data.isnull().sum()
@@ -70,7 +64,7 @@ class PriceModel:
         data = self._replace_missing_data(data)
 
         data["distance"] = data.apply(
-            lambda row: self._calculate_distance(row["longitude"], row["latitude"]),
+            lambda row: calculate_distance(row["longitude"], row["latitude"]),
             axis=1,
         )
 
@@ -91,7 +85,7 @@ class PriceModel:
         data = self._replace_missing_data(data)
 
         data["distance"] = data.apply(
-            lambda row: self._calculate_distance(row["longitude"], row["latitude"]),
+            lambda row: calculate_distance(row["longitude"], row["latitude"]),
             axis=1,
         )
 

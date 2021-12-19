@@ -1,0 +1,11 @@
+requests
+uvicorn
+fastapi
+h5py
+scikit-learn
+scipy
+tensorflow
+loguru
+fsspec
+gcsfs
+numpy

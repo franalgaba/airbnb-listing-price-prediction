@@ -1,9 +1,11 @@
+import requests
+import os
+
 import streamlit as st
 import pandas as pd
-import numpy as np
 from geopy.geocoders import Nominatim
 
-from src.utils import get_data
+from src.utils import get_data, calculate_distance
 
 
 def _build_predict_request(
@@ -18,6 +20,17 @@ def _build_predict_request(
     st.text(
         f"{neighborhood_group}, {neighborhood}, {room_type}, {minimum_nights}, {availability_365}, {latitude}, {longitude}"
     )
+
+    distance = calculate_distance(longitude, latitude)
+
+    return {
+        "neighborhood_group": neighborhood_group,
+        "neighborhood": neighborhood,
+        "room_type": room_type,
+        "minimum_nights": minimum_nights,
+        "availability_365": availability_365,
+        "distance": distance,
+    }
 
 
 def write():
@@ -51,7 +64,7 @@ def write():
 
         submitted = st.form_submit_button("Get listing price")
         if submitted:
-            _build_predict_request(
+            payload = _build_predict_request(
                 neighborhood_group,
                 neighborhood,
                 room_type,
@@ -60,6 +73,13 @@ def write():
                 location.latitude,
                 location.longitude,
             )
+            if "PREDICTION_BACKEND_URL" in os.environ:
+                prediction = requests.post("PREDICTION_BACKEND_URL", json=payload)
+                st.success(
+                    f'El precio por noche recomendado sería: __{prediction["price"]}__'
+                )
+            else:
+                st.error("Missing PREDICTION_BACKEND_URL environment variable")
 
 
 if __name__ == "__main__":
