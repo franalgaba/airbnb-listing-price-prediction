@@ -7,6 +7,10 @@ from src.utils import get_data
 
 def write():
 
+    """
+    Main entrypoint for the EDA page
+    """
+
     df = get_data()
 
     st.title("Airbnb Exploratory Data Analysis")

@@ -2,6 +2,11 @@ import streamlit as st
 
 
 def write():
+
+    """
+    Main entrypoint for the frontpage
+    """
+
     st.title("Airbnb and chill... your house!")
     st.markdown(
         """

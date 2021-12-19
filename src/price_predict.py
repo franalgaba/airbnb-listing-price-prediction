@@ -1,5 +1,7 @@
 import requests
 import os
+import json
+from requests.models import Response
 
 import streamlit as st
 import pandas as pd
@@ -78,9 +80,10 @@ def write():
                 location.longitude,
             )
             if "PREDICTION_BACKEND_URL" in os.environ:
-                prediction = requests.post(
+                response = requests.post(
                     os.environ["PREDICTION_BACKEND_URL"], json=payload
                 )
+                prediction = json.loads(response.text)
                 st.success(
                     f'El precio por noche recomendado sería: __{prediction["price"]}__'
                 )

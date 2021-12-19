@@ -25,11 +25,19 @@ from src.utils import get_data, calculate_distance
 @st.cache(allow_output_mutation=True)
 class PriceModel:
 
+    """
+    Class for listing price modeling and processing
+    """
+
     hot_encoder = None
     feature_selector = None
     model = None
 
     def _replace_missing_data(self, data):
+        """
+        Method for replacing NaN values for mean in numerics and NA in string
+        """
+
         missing_df = data.isnull().sum()
         missing_df = missing_df[missing_df > 0].sort_values(ascending=False)
         nan_columns = list(missing_df.to_dict().keys())
@@ -43,6 +51,10 @@ class PriceModel:
         return data
 
     def _preprocess_train(self, data, predict=False):
+
+        """
+        Preprocess train data and prepares it for training.
+        """
 
         y = data["price"]
 
@@ -82,6 +94,10 @@ class PriceModel:
 
     def _preprocess_predict(self, data):
 
+        """
+        Preprocess data that is going to be consumed on inference
+        """
+
         data = self._replace_missing_data(data)
 
         data["distance"] = data.apply(
@@ -96,6 +112,12 @@ class PriceModel:
         return pd.DataFrame(X.toarray())
 
     def _build_model(self, hp):
+
+        """
+        Builds a Keras model using Keras Tuner for architecture search
+        and hyperparameter tuning.
+        """
+
         model = Sequential()
         for i in range(hp.Int("layers", 2, 10)):
             model.add(
@@ -115,6 +137,10 @@ class PriceModel:
         return model
 
     def train_tuner(self, data):
+
+        """
+        Model tuning and hyperparameters fine tunning for training
+        """
 
         X, y = self._preprocess_train(data)
 
@@ -141,6 +167,12 @@ class PriceModel:
         self.model = tuner.get_best_models(1)[0]
 
     def train_lr(self, data, max_iter=5):
+
+        """
+        Trains a Logistic Regression model and validates
+        using cross-validation.
+        """
+
         X, y = self._preprocess_train(data)
 
         X_train, X_test, y_train, y_test = train_test_split(
@@ -155,6 +187,11 @@ class PriceModel:
         st.markdown("Accuracy: %.3f (%.3f)" % (results.mean(), results.std()))
 
     def train(self, data, epochs=10, batch_size=64, learning_rate=0.0001):
+
+        """
+        Main training method for training a custom designed Keras Model
+        """
+
         X, y = self._preprocess_train(data)
 
         X_train, X_test, y_train, y_test = train_test_split(
@@ -191,6 +228,11 @@ class PriceModel:
         return model.history
 
     def predict(self, data, is_lr=False):
+
+        """
+        Main inference method using previously trained models
+        """
+
         X = self._preprocess_predict(data)
 
         result = None
@@ -212,6 +254,11 @@ class PriceModel:
 
 
 def write():
+
+    """
+    Main entrypoint for the Model Training page
+    """
+
     st.title("Price prediction Model Training")
 
     st.markdown(
