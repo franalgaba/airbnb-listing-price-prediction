@@ -8,7 +8,7 @@ import streamlit as st
 sns.set()
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, KFold, cross_val_score
 from sklearn.feature_selection import SelectKBest, chi2
 
 from tensorflow.keras.models import Sequential
@@ -79,8 +79,8 @@ class PriceModel:
         self.hot_encoder = OneHotEncoder(handle_unknown="ignore")
         X = self.hot_encoder.fit_transform(X)
 
-        self.feature_selector = SelectKBest(chi2, k=2)
-        X = self.feature_selector.fit_transform(X, y)
+        # self.feature_selector = SelectKBest(chi2, k=2)
+        # X = self.feature_selector.fit_transform(X, y)
 
         X = pd.DataFrame(X.toarray())
 
@@ -97,7 +97,7 @@ class PriceModel:
 
         X = data.drop(["longitude", "latitude"], axis=1)
         X = self.hot_encoder.transform(X)
-        X = self.feature_selector.transform(X)
+        # X = self.feature_selector.transform(X)
 
         return pd.DataFrame(X.toarray())
 
@@ -146,17 +146,21 @@ class PriceModel:
         )
         self.model = tuner.get_best_models(1)[0]
 
-    def train_lr(self, data):
+    def train_lr(self, data, max_iter=5):
         X, y = self._preprocess_train(data)
 
         X_train, X_test, y_train, y_test = train_test_split(
             X, y, test_size=0.2, random_state=1
         )
 
-        self.model = LogisticRegression()
-        self.model.fit(X_train, y_train)
+        self.model_lr = LogisticRegression(max_iter=5)
+        self.model_lr.fit(X_train, y_train)
 
-    def train(self, data, epochs=10, batch_size=64):
+        kfold = KFold(n_splits=10, random_state=7, shuffle=True)
+        results = cross_val_score(self.model_lr, X, y, cv=kfold, scoring="roc_auc")
+        st.markdown("Accuracy: %.3f (%.3f)" % (results.mean(), results.std()))
+
+    def train(self, data, epochs=10, batch_size=64, learning_rate=0.0001):
         X, y = self._preprocess_train(data)
 
         X_train, X_test, y_train, y_test = train_test_split(
@@ -171,18 +175,10 @@ class PriceModel:
         model.add(Dense(64, activation="relu"))
         model.add(BatchNormalization())
         model.add(Dropout(0.2, input_shape=(64,)))
-        model.add(Dense(128, activation="relu"))
-        model.add(BatchNormalization())
-        model.add(Dropout(0.2, input_shape=(128,)))
-        model.add(Dense(64, activation="relu"))
-        model.add(BatchNormalization())
-        model.add(Dropout(0.2, input_shape=(64,)))
         model.add(Dense(32, activation="relu"))
         model.add(Dense(1))
         # Compile model
-        model.compile(
-            optimizer=Adam(learning_rate=0.0001), loss="mse", metrics=["accuracy"]
-        )
+        model.compile(optimizer=Adam(learning_rate=learning_rate), loss="mse")
 
         model.summary()
 
@@ -200,9 +196,25 @@ class PriceModel:
         self.model = model
         return model.history
 
-    def predict(self, data):
+    def predict(self, data, is_lr=False):
         X = self._preprocess_predict(data)
-        return self.model.predict(X)
+
+        result = None
+        if is_lr:
+            if self.model_lr is None:
+                st.error(
+                    "Modelo de Logistic Regression no entrenado. Por favor, entrénalo antes de ejecutar la predicción."
+                )
+            else:
+                result = self.model_lr.predict(X)
+        else:
+            if self.model is None:
+                st.error(
+                    "Modelo de Red Neuronal no entrenado. Por favor, entrénalo antes de ejecutar la predicción."
+                )
+            else:
+                result = self.model.predict(X)
+        return result
 
 
 def write():
@@ -285,18 +297,33 @@ def write():
         "Se puede personalizar la ejecución para que dure menos o más epochs al gusto. Aún así el entrenamiento tiene Early Stopping en el callback de entrenamiento."
     )
 
+    max_iter = st.number_input("max_iter", min_value=5)
+
     if st.button("Lanzar entrenamiento con Logistic Regression!"):
-        with st.spinner("Haciendo huevos fritos sobre el ordenador..."):
-            model.train_lr(data)
+        with st.spinner(":fire: Haciendo huevos fritos sobre el ordenador..."):
+            model.train_lr(data, max_iter)
         st.success("Terminado!")
 
-    st.number_input("epochs", min_value=1)
-    st.number_input("batch_size", min_value=32)
+    st.markdown(
+        """
+    Los parámetros más óptimos encontrados son:
+    - `epochs=100`
+    - `batch_size=128`
+    - `learning_rate=0.001`
+    """
+    )
+    epochs = st.number_input("epochs", min_value=1)
+    batch_size = st.number_input("batch_size", min_value=32)
+    learning_rate = st.number_input("learning_rate", min_value=0.0001, format="%.4f")
 
     if st.button("Lanzar entrenamiento con Neural Network!"):
-        with st.spinner("Haciendo huevos fritos sobre el ordenador..."):
-            model.train(data)
+        with st.spinner(":fire: Haciendo huevos fritos sobre el ordenador..."):
+            history = model.train(data, epochs, batch_size, learning_rate)
+            st.line_chart(history.history)
         st.success("Terminado!")
+        st.markdown(
+            "Como vemos en la gráfica superior se produce mucho overfitting que no es fácil de controlar debido a la poca cantidad de datos. Las NN no son una solución adecuada al problema"
+        )
 
     st.header("Let's predict!")
 
@@ -308,6 +335,10 @@ def write():
 testing = pd.DataFrame.from_dict([{"neighbourhood_group": "Chamartín", "neighbourhood": "Hispanoamérica", "latitude": 40.418595550000006, "longitude": -3.702305961540991, "room_type": "Private room", "minimum_nights": 1, "availability_365": 82}])
 model.predict(testing)
         """
+    )
+
+    selected_model = st.selectbox(
+        "Modelo de prediccón", ("Logistic Regression", "Neural Network")
     )
 
     if st.button("Lanzar inferencia de prueba"):
@@ -325,8 +356,12 @@ model.predict(testing)
                     }
                 ]
             )
-            result = model.predict(testing)
-        st.success(f"El precio por noche recomendado sería: __{float(result)}__")
+            is_lr = False
+            if selected_model == "Logistic Regression":
+                is_lr = True
+            result = model.predict(testing, is_lr)
+        if result is not None:
+            st.success(f"El precio por noche recomendado sería: __{float(result)}__")
 
 
 if __name__ == "__main__":
